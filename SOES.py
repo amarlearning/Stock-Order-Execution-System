@@ -135,7 +135,7 @@ def main():
 
 
 	""" 
-		If the name of Input file might be diff, the uncomment the below code  
+		If the name of Input file might be diff, then uncomment the below code  
 		and comment the above code!
 	"""
 	
