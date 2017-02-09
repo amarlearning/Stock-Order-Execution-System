@@ -3,7 +3,6 @@
 # @Date:   2017-02-08
 # @Email:  amar.om1994@gmail.com
 
-
 class ImportData:
 
 	""" This is to import data form the cvs file. """
