@@ -1,4 +1,7 @@
-# !/usr/bin/env python
+#!/usr/bin/env python
+# @Author: @amarlearning
+# @Date:   2017-02-08
+# @Email:  amar.om1994@gmail.com
 
 
 class ImportData:
@@ -77,7 +80,8 @@ class CoreLogic:
 		self.__makeSpace()
 
 		for i in xrange(1, len(self.__data)):
-			for j in xrange(1, int(self.__data[i][0])):
+			
+			or j in xrange(1, int(self.__data[i][0])):
 				
 				if self.__data[i][self.__CI] == self.__data[j][self.__CI]:
 					if self.__data[i][self.__Side] != self.__data[j][self.__Side]:
@@ -98,6 +102,7 @@ class QualityStateOutputter:
 	def PrintOutput(self):
 
 		print self.__data[0][0] + "," + self.__data[0][1] + "," + self.__data[0][2] + "," + self.__data[0][3]
+		
 		for i in xrange(1,len(self.__data)):
 
 			self.__line = self.__data[i][0] + "," + self.__data[i][1] + "," + self.__data[i][2] + "," + self.__data[i][3] 
@@ -107,8 +112,8 @@ class QualityStateOutputter:
 
 
 def main():
-	result = ImportData('SOES - Input.csv').getDataInList()
-	outputData = CoreLogic(result).CalculateStatus()
+	inputData = ImportData('SOES - Input.csv').getDataInList()
+	outputData = CoreLogic(inputData).CalculateStatus()
 	QualityStateOutputter(outputData).PrintOutput()
 
 if __name__ == '__main__':
