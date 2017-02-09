@@ -14,6 +14,8 @@ class ImportData:
 
 	def getDataInList(self):
 
+		""" Public method to import data form the cvs file. """
+
 		with open(self.__name, 'r') as data:
 
 			self.__data = []
@@ -34,8 +36,12 @@ class CoreLogic:
 		self.__CI = self.__data[0].index("Company")
 		self.__Side = self.__data[0].index("Side")
 		self.__quantity = self.__data[0].index("Quantity")
+		self.__old = len(self.__data[0])
+
 
 	def __updateQuantity(self, DataOne, DataTwo):
+
+		""" Private method to update quantity based on stock exchange orders. """
 
 		DataOne = int(DataOne)
 		DataTwo = int(DataTwo)
@@ -53,29 +59,32 @@ class CoreLogic:
 
 		return str(DataOne) , str(DataTwo)
 
-
 	def __makeSpace(self):
 
-		for k in xrange(1, 3):
-			for i in xrange(1, len(self.__data)):
-				
-				self.__data[i].append(self.__data[i][self.__quantity])
+		""" Private method to add extra two coloums for remaining and state """
+
+		for i in xrange(1, len(self.__data)):
+			
+			self.__data[i].append(self.__data[i][self.__quantity])
+			self.__data[i].append(self.__data[i][self.__quantity])
 
 
 	def __updateStatusValue(self):
 
+		""" Private method to find the order status """
+
 		for i in xrange(1, len(self.__data)):
 			
-			if self.__data[i][4] == str(0):
-				self.__data[i][5] = str("Closed")
+			if self.__data[i][self.__old] == str(0):
+				self.__data[i][self.__old + 1] = str("Closed")
 
 			else:
-				self.__data[i][5] = str("Open")
+				self.__data[i][self.__old + 1] = str("Open")
 
 
 	def CalculateStatus(self):
 
-		""" This will return the status of following orders. """
+		""" Public method that will return the status of following orders. """
 
 		self.__makeSpace()
 
@@ -86,9 +95,10 @@ class CoreLogic:
 				if self.__data[i][self.__CI] == self.__data[j][self.__CI]:
 					if self.__data[i][self.__Side] != self.__data[j][self.__Side]:
 
-						self.__data[i][4] , self.__data[j][4] = self.__updateQuantity(self.__data[i][4], self.__data[j][4])
+						self.__data[i][self.__old] , self.__data[j][self.__old] = self.__updateQuantity(self.__data[i][self.__old], self.__data[j][self.__old])
 				
 		self.__updateStatusValue()
+
 		return self.__data
 
 
@@ -101,6 +111,8 @@ class QualityStateOutputter:
 
 	def PrintOutput(self):
 
+		""" Public method responsible for printing data as mentioned in output file. """
+
 		print self.__data[0][0] + "," + self.__data[0][1] + "," + self.__data[0][2] + "," + self.__data[0][3]
 		
 		for i in xrange(1,len(self.__data)):
@@ -112,9 +124,27 @@ class QualityStateOutputter:
 
 
 def main():
-	inputData = ImportData('SOES - Input.csv').getDataInList()
-	outputData = CoreLogic(inputData).CalculateStatus()
-	QualityStateOutputter(outputData).PrintOutput()
+
+	""" Function to find the remaining and status of various stock orders. """
+
+
+	"""
+		If name of Input file is same as sample give, no change required!
+	"""
+	InputData = ImportData('SOES - Input.csv').getDataInList()
+
+
+	""" 
+		If the name of Input file might be diff, the uncomment the below code  
+		and comment the above code!
+	"""
+	
+	# InputFileName = raw_input("Name of CSV file : ")
+	# InputData = ImportData(InputFileName).getDataInList()
+
+
+	OutputData = CoreLogic(InputData).CalculateStatus()
+	QualityStateOutputter(OutputData).PrintOutput()
 
 if __name__ == '__main__':
 	main()
