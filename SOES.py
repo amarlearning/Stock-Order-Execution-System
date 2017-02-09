@@ -81,7 +81,7 @@ class CoreLogic:
 
 		for i in xrange(1, len(self.__data)):
 			
-			or j in xrange(1, int(self.__data[i][0])):
+			for j in xrange(1, int(self.__data[i][0])):
 				
 				if self.__data[i][self.__CI] == self.__data[j][self.__CI]:
 					if self.__data[i][self.__Side] != self.__data[j][self.__Side]:
